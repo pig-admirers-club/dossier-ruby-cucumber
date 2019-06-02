@@ -27,7 +27,15 @@ window.AceReports = window.AceReports || function(reportData) {
   Vue.config.devtools = true;
   
   if (!(reportData instanceof Array)) {
-    reportData = [ reportData ]
+    if (!reportData.features) {
+      let parsedReportData = []
+      for (let key in reportData) {
+        parsedReportData.push(reportData[key])
+      }
+      reportData = parsedReportData
+    } else {
+      reportData = [ reportData ]
+    }
   }
 
   store.commit('reports/set', reportData);
