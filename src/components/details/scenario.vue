@@ -34,7 +34,7 @@ export default {
       return this.$store.getters['modal/isOpen']
     },
     passed() {
-      return this.$store.getters['reports/passed'](this.scenario)
+      return this.$store.getters['reports/skippedOrPassed'](this.scenario)
     },
   },
   methods: {

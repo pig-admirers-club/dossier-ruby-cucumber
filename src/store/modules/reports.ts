@@ -8,10 +8,12 @@ const getters = {
   summaries: (state, getters) => {
     let vm = this
     let summaries = state.data.map(report => {
+      let percentages = getters.calculatePercentages(report)
       return {
         uuid: report.uuid,
         date: moment(report.date),
-        percentagePassed: getters.caculatePercentagePassed(report)
+        skipped: percentages.skipped,
+        passed: percentages.passed
       }
     })
 
@@ -25,24 +27,28 @@ const getters = {
 
     return sorted
   },
-  caculatePercentagePassed: (state) => {
+  calculatePercentages(state, getters) { 
     return (report) => {
       let total = 0;
+      let totalSkipped = 0;
       let totalPassed = 0;
       for(let i=0;i<report.features.length;i++) {
         for(let z=0;z<report.features[i].elements.length; z++) {
           total += 1
-          let passed = report.features[i].elements[z].steps.reduce((memo, step) => {
-            return (memo && (step.result.status == 'passed' || step.result.status == 'skipped'))
-          }, true)
-          if (passed) {
+          if (getters.skipped(report.features[i].elements[z])) {
+            totalSkipped += 1
+          } else if (getters.passed(report.features[i].elements[z])) {
             totalPassed += 1
           }
         }
       }
-      let percent = Math.round(parseFloat(totalPassed.toString()) / parseFloat(total.toString()) * 100)
-      console.log("percent passed", totalPassed, total)
-      return percent
+      // percentages
+      let percentPassed = Math.round(parseFloat(totalPassed.toString()) / parseFloat(total.toString()) * 100)
+      let percentSkipped = Math.round(parseFloat(totalSkipped.toString()) / parseFloat(total.toString()) * 100)
+      return {
+        skipped: percentSkipped,
+        passed: percentPassed
+      }
     }
   },
   find: (state) => {
@@ -52,13 +58,30 @@ const getters = {
       })
     }
   },
-  passed: (state) => {
+  skipped: (state) => {
     return (scenario) => {
+      console.log('skipped function', scenario.steps.length)
       return scenario.steps.reduce((memo, step) => {
-        return (memo && (step.result.status == 'passed' || step.result.status == 'skipped'))
+        return (memo && step.result.status == 'skipped')
       }, true)
     }
-  }
+  },
+  passed: (state) => {
+    return (scenario) => {
+      console.log('passed function', scenario.steps.length)
+      return scenario.steps.reduce((memo, step) => {
+        return (memo && step.result.status == 'passed')
+      }, true)
+    }
+  },
+  skippedOrPassed: (state) => {
+    return (scenario) => {
+      console.log('skipped function', scenario.steps.length)
+      return scenario.steps.reduce((memo, step) => {
+        return (memo && (step.result.status == 'skipped' || step.result.status == 'passed'))
+      }, true)
+    }
+  },
 }
 
 const actions = {

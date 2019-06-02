@@ -1,7 +1,8 @@
 <template>
   <router-link :to="'/' + uuid">
     <div class="instance">
-      <div :style="{ height: percentage }" class="percent-success"></div>
+      <div :style="{ height: isPassed }" class="percent-success"></div>
+      <div :style="{ height: isSkipped, 'margin-bottom': isPassed }" class="percent-skipped"></div>
       <div class="percent-passed">{{ percentage }}</div>
       <div class="date">
         <span class="month">{{ month }}</span>
@@ -15,13 +16,20 @@
 <script lang="ts">
   export default {
     props: {
-      percent: Number,
+      skipped: Number,
+      passed: Number,
       date: Object,
       uuid: String
     },
     computed: {
       percentage() {
-        return this.percent.toString() + '%'
+        return (this.passed + this.skipped).toString() + '%'
+      },
+      isPassed() {
+        return this.passed.toString() + '%'
+      },
+      isSkipped() {
+        return this.skipped.toString() + '%'
       },
       year() {
         return this.date.format('YYYY')
@@ -118,5 +126,13 @@
     left: 0;
     z-index: 1;
     background-color: rgb(201, 234, 182);
+  }
+  div.instance div.percent-skipped {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgb(255, 253, 150);
   }
 </style>

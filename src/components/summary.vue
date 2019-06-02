@@ -8,7 +8,8 @@
       v-for="(summary, index) in summaries" 
       v-bind:uuid="summary.uuid"
       v-bind:date="summary.date" 
-      v-bind:percent="summary.percentagePassed"
+      v-bind:skipped="summary.skipped"
+      v-bind:passed="summary.passed"
       v-bind:key="index"
       ></summary-item>
     </div>
@@ -27,7 +28,9 @@
     },
     computed: {
       summaries(): string {
-        return this.$store.getters['reports/summaries']
+        let summaries = this.$store.getters['reports/summaries']
+        console.log(summaries)
+        return summaries
       }
     }
   }
