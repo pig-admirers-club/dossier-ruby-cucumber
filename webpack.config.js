@@ -2,6 +2,10 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
+  watch: true,
+  watchOptions: {
+    ignored: /node_modules/
+  },
   entry: {
     'ace-reports': './src/index.ts'
   },
@@ -11,6 +15,15 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+          }
+        ]
+      },
       {
         test: /\.vue$/,
         use: ['vue-loader']
@@ -27,7 +40,7 @@ module.exports = {
   }, 
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.min.js'
     },
     extensions: [ '.tsx', '.ts', '.js', '.vue', '.json' ]
   },
