@@ -66,6 +66,9 @@ export default {
   div.feature__status {
     width: 50px;
     font-size: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
   }
   div.feature__information {
     margin-left: 10px;

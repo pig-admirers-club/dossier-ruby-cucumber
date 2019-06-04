@@ -1,6 +1,6 @@
 <template>
-  <router-link :to="'/' + uuid">
-    <div class="instance">
+  <router-link :disabled="clickable" :to="'/' + uuid" :event="clickable ? 'click' : ''">
+    <div class="instance" :style="{'z-index': -Math.abs(index), 'margin-left': index == 0 ? '20px' : '-180px', 'transition': 'z-index 0s, margin .3s'}">
       <div :style="{ height: isPassed }" class="percent-success"></div>
       <div :style="{ height: isSkipped, 'margin-bottom': isPassed }" class="percent-skipped"></div>
       <div class="percent-passed">{{ percentage }}</div>
@@ -16,12 +16,20 @@
 <script lang="ts">
   export default {
     props: {
+      index: Number,
+      clickable: Boolean,
       skipped: Number,
       passed: Number,
       date: Object,
       uuid: String
     },
+    mounted() {
+      console.log('summary index', this.index)
+    },
     computed: {
+      isModal() {
+        return this.$store.state.app.summarySelected
+      },
       percentage() {
         return (this.passed + this.skipped).toString() + '%'
       },

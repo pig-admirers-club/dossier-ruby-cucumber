@@ -1,6 +1,7 @@
 
 const state = {
   erroredScenario: null,
+  summarySelected: null,
 }
 
 const getters = {
@@ -37,6 +38,9 @@ const actions = {
 const mutations = {
   setErroredScenario(state, scenario) {
     state.erroredScenario = scenario
+  },
+  setSummarySelected(state, summaryGroup) {
+    state.summarySelected = summaryGroup
   }
 }
 

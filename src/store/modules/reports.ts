@@ -5,7 +5,7 @@ const state = {
 }
 
 const getters = {
-  summaries: (state, getters) => {
+  summaryGroups: (state, getters) => {
     let vm = this
     let summaries = state.data.map(report => {
       let percentages = getters.calculatePercentages(report)
@@ -25,7 +25,15 @@ const getters = {
       }
     })
 
-    return sorted
+    let grouped = sorted.reduce((memo, summary) => {
+      let date = summary.date.format('MM/DD/YYYY')
+      if (!memo[date]) { 
+        memo[date] = []
+      }
+      memo[date].push(summary)
+      return memo
+    }, {})
+    return grouped
   },
   calculatePercentages(state, getters) { 
     return (report) => {
