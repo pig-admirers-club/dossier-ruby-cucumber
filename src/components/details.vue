@@ -25,9 +25,6 @@ export default {
     report() { 
       console.log(this.$store.getters['reports/find'](this.$route.params.id))
       return this.$store.getters['reports/find'](this.$route.params.id)
-    },
-    hello() {
-      return "TEST HELLO"
     }
   }
 }

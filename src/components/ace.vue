@@ -48,7 +48,7 @@
   }
 
   a {
-    color: inherit;
-    text-decoration: none;
+    color: #000;
+    text-decoration: none !important;
   }
 </style>

@@ -91,30 +91,6 @@ export default {
     padding: 5px;
   }
 
-  span.feature__information__name__tag:after {
-    content: '';
-    margin-left: -16px;
-    position: absolute;
-    background-color: white;
-    width: 10px;
-    height: 10px;
-    border-radius: 20px;
-    margin-top: -15px;
-
-  }
-  span.feature__information__name__tag:before {
-    content: '';
-    height: 29px;
-    width: 20px;
-    position: absolute;
-    margin-top: -5;
-    margin-left: -25;
-    background-color: rgba(0, 0, 0, .3);
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-
-  }
-
   div.feature__information h1 {
     padding: 0px;
     margin: 0px;

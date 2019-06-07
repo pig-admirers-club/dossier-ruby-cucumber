@@ -66,25 +66,31 @@ const getters = {
       })
     }
   },
-  skipped: (state) => {
+  failed: (state, getters) => {
     return (scenario) => {
-      console.log('skipped function', scenario.steps.length)
-      return scenario.steps.reduce((memo, step) => {
-        return (memo && step.result.status == 'skipped')
-      }, true)
+      return getters.checkStatus(scenario, 'failed')
     }
   },
-  passed: (state) => {
+  skipped: (state, getters) => {
     return (scenario) => {
-      console.log('passed function', scenario.steps.length)
+      return getters.checkStatus(scenario, 'skipped')
+    }
+  },
+  passed: (state, getters) => {
+    return (scenario) => {
+      return getters.checkStatus(scenario, 'passed')
+    }
+  },
+
+  checkStatus: (state) => {
+    return (scenario, status) => {
       return scenario.steps.reduce((memo, step) => {
-        return (memo && step.result.status == 'passed')
+        return (memo && step.result.status == status)
       }, true)
     }
   },
   skippedOrPassed: (state) => {
     return (scenario) => {
-      console.log('skipped function', scenario.steps.length)
       return scenario.steps.reduce((memo, step) => {
         return (memo && (step.result.status == 'skipped' || step.result.status == 'passed'))
       }, true)
@@ -98,7 +104,6 @@ const actions = {
 
 const mutations = {
   set(state, reports) {
-    console.log(reports)
     state.data = reports;
   },
 }

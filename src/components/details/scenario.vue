@@ -4,12 +4,15 @@
       <div v-if="passed" class="scenario__info--passed">
         <i class="zmdi zmdi-check-circle"></i>
       </div>
+      <div v-else-if="skipped" class="scenario__info--skipped">
+        <i class="zmdi zmdi-minus-circle"></i>
+      </div>
       <div v-else class="scenario__info--failed">
         <i class="zmdi zmdi-minus-circle"></i>
       </div>
     </div>
     <div class="scenario__name" style="position:relative;">
-      <div @click="setErroredScenario" class="scenario__errored" v-if="!passed"></div>
+      <div @click="setErroredScenario" class="scenario__errored" v-if="failed"></div>
       <h2>{{ scenario.keyword }}: {{ scenario.name }}</h2>
       <step v-for="(step, index) in scenario.steps"
       v-bind:key="index"
@@ -30,12 +33,17 @@ export default {
   },
   computed: {
     isOpen() {
-      console.log('OPEN?', this.$store.getters['modal/isOpen']);
       return this.$store.getters['modal/isOpen']
     },
     passed() {
-      return this.$store.getters['reports/skippedOrPassed'](this.scenario)
+      return this.$store.getters['reports/passed'](this.scenario)
     },
+    failed() {
+      return this.$store.getters['reports/failed'](this.scenario)
+    },
+    skipped() {
+      return this.$store.getters['reports/skipped'](this.scenario)
+    }
   },
   methods: {
     setErroredScenario() {
@@ -73,6 +81,9 @@ export default {
   }
   div.scenario__info--failed {
     color: rgb(255, 163, 184);
+  }
+  div.scenario__info--skipped {
+    color: rgb(175, 173, 0);
   }
   div.scenario__errored {
     position: absolute;

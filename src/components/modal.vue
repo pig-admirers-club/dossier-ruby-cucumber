@@ -13,11 +13,9 @@
    },
    methods: {
      closeModal() {
-       console.log('closing')
        this.$emit('close')
      },
      doNothing() {
-       console.log('doing nothing')
      }
    }
  }

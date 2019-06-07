@@ -25,9 +25,6 @@
   import SummaryItem from './summary-item/summary-item.vue'
 
   export default {
-    mounted() {
-      console.log('hello')
-    },
     components: {
       'summary-item': SummaryItem
     },
@@ -86,6 +83,9 @@
     margin-left: 20px !important;
     z-index: 1 !important;
     transition: margin .3s, z-index .4s !important;
+  }
+  .summary__group a:visited, .summary__group a, .summary__group a:hover {
+    color: #333;
   }
   .summary__group.summary__modal:before{
     content: '';

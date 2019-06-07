@@ -3,7 +3,7 @@
     <div class="instance" :style="{'z-index': -Math.abs(index), 'margin-left': index == 0 ? '20px' : '-180px', 'transition': 'z-index 0s, margin .3s'}">
       <div :style="{ height: isPassed }" class="percent-success"></div>
       <div :style="{ height: isSkipped, 'margin-bottom': isPassed }" class="percent-skipped"></div>
-      <div class="percent-passed">{{ percentage }}</div>
+      <div class="percent-passed">{{ isPassed }}</div>
       <div class="date">
         <span class="month">{{ month }}</span>
         <span class="day">{{ day }}</span>
@@ -23,15 +23,9 @@
       date: Object,
       uuid: String
     },
-    mounted() {
-      console.log('summary index', this.index)
-    },
     computed: {
       isModal() {
         return this.$store.state.app.summarySelected
-      },
-      percentage() {
-        return (this.passed + this.skipped).toString() + '%'
       },
       isPassed() {
         return this.passed.toString() + '%'
@@ -61,6 +55,7 @@
     position:  relative;
     border: 2px solid rgba(0, 0, 0, .3);
     cursor: pointer;
+    color: #333 !important;
     background-image: linear-gradient(to bottom,rgb(255, 175, 168),rgb(255, 163, 155));
   }
   div.instance:hover:before {
