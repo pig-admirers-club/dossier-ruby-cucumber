@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="scenario__name" style="position:relative;">
-      <div @click="setErroredScenario" class="scenario__errored" v-if="failed"></div>
+      <div @click="setErroredScenario" class="scenario__errored" v-if="!skipped && !passed"></div>
       <h2>{{ scenario.keyword }}: {{ scenario.name }}</h2>
       <step v-for="(step, index) in scenario.steps"
       v-bind:key="index"
