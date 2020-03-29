@@ -1,10 +1,36 @@
 import * as moment from 'moment'
 
 const state = {
-  data: []
+  data: [],
+  pager: {
+    count: null,
+    currentPage: 1,
+    perPage: 30
+  }
 }
 
 const getters = {
+  canNextPage: (state, getters) => {
+    return !(state.pager.currentPage === getters.pages) && (getters.pages !== 0);
+  },
+  canPreviousPage: (state, getters) => {
+    return !(state.pager.currentPage == 1);
+  },
+  pageArray: (state, getters) => {
+    const pages = getters.pages;
+    console.log(pages);
+    if (!pages) {
+      return []
+    } else {
+      return [...Array(pages).keys()].map((i) => i + 1);
+    }
+  },
+  pages: (state) => {
+    return Math.ceil(state.pager.count / state.pager.perPage);
+  },
+  offset: (state) => {
+    return (state.pager.currentPage -1) * state.pager.perPage;
+  },
   summaryGroups: (state, getters) => {
     let vm = this
     let summaries = state.data.map(report => {
@@ -99,13 +125,41 @@ const getters = {
 }
 
 const actions = {
-
+  async getCount(context) {
+    const meta = context.rootState.app.meta;
+    const response = await fetch(`/api/reports/${meta.id}/count`)
+    if (response.ok) {
+      const body = await response.json();
+      context.commit('setCount', JSON.parse(body).count);
+    } else {
+      console.log('failure', response);
+    }
+  },
+  async get(context) {
+    const meta = context.rootState.app.meta;
+    const perPage = context.state.pager.perPage;
+    const offset = context.getters.offset;
+    const queryString = `per_page=${perPage}&offset=${offset}`;
+    const response = await fetch(`/api/reports/${meta.id}?${queryString}`)
+    if (response.ok) {
+      const body = await response.json();
+      context.commit('set', JSON.parse(body));
+    } else {
+      console.log('failure', response)
+    }
+  }
 }
 
 const mutations = {
   set(state, reports) {
     state.data = reports;
   },
+  setCount(state, count) {
+    state.pager.count = count;
+  },
+  currentPage(state, page) {
+    state.pager.currentPage = page;
+  }
 }
 
 export default {

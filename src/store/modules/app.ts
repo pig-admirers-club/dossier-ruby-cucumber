@@ -2,6 +2,8 @@
 const state = {
   erroredScenario: null,
   summarySelected: null,
+  meta: {},
+  busy: false
 }
 
 const getters = {
@@ -17,7 +19,6 @@ const getters = {
   getEmbeds(state) {
     return (scenario) => {
       if (!scenario) {
-        console.log('no scenario error')
         return []
       }
       let embeds = []
@@ -26,7 +27,6 @@ const getters = {
           embeds = embeds.concat(hook.embeddings)
         }
       })
-      console.log('acutal embeds', embeds)
       return embeds
     }
   }
@@ -41,6 +41,12 @@ const mutations = {
   },
   setSummarySelected(state, summaryGroup) {
     state.summarySelected = summaryGroup
+  },
+  setMeta(state, metadata) {
+    state.meta = metadata;
+  },
+  busy(state, bool) {
+    state.busy = bool;
   }
 }
 

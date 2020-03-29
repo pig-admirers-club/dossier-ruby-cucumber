@@ -3,7 +3,12 @@
     "outDir": "./built/",
     "target": "es5",
     "module": "es2015",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowJs": true,
+    "lib": ["ES2015", "ES2016", "DOM"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true
   },
   "include": [
     "src/index.ts"

@@ -7,10 +7,10 @@ module.exports = {
     ignored: /node_modules/
   },
   entry: {
-    'ace-reports': './src/index.ts'
+    'cucumber-reports': './src/index.ts'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../../ruby/pickled/public'),
     filename: "[name].js"
   },
   module: {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 //@ts-ignore
-import Ace from './components/ace.vue'
+import Dossier from './components/dossier.vue'
 //@ts-ignore
 import Summary from './components/summary.vue'
 //@ts-ignore
@@ -22,29 +22,17 @@ const router = new VueRouter({
 })
 
 //@ts-ignore
-window.AceReports = window.AceReports || function(reportData) {
+window.DossierRubyCucumber = window.DossierRubyCucumber || function(meta) {
   
   Vue.config.devtools = true;
-  
-  if (!(reportData instanceof Array)) {
-    if (!reportData.features) {
-      let parsedReportData = []
-      for (let key in reportData) {
-        parsedReportData.push(reportData[key])
-      }
-      reportData = parsedReportData
-    } else {
-      reportData = [ reportData ]
-    }
-  }
 
-  store.commit('reports/set', reportData);
+  store.commit('app/setMeta', meta);
 
   return new Vue({
     el: '#app',
     router,
     store,
-    render: h => h(Ace)
+    render: h => h(Dossier)
   })
 }
 
